@@ -10,14 +10,18 @@ import authRoutes from "./routes/authRoutes.js";
 dotenv.config();
 
 const app = express();
-app.use(cors({
-    origin: [
-        "http://localhost:3000",
-        "https://todolist-client.onrender.com"
-    ],
-    methods: ["GET", "POST", "PATCH", "DELETE"],
-    credentials: true,
-}));
+app.use(
+    cors({
+        origin: [
+            "http://localhost:3000",
+            "https://todolist-fe-wine.vercel.app", // ✅ cho phép FE từ Vercel
+        ],
+        methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+        credentials: true,
+    })
+);
+
 app.use(express.json());
 app.use("/api/todos", todoRoutes);
 app.use("/api/auth", authRoutes);
