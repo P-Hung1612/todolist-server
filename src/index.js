@@ -10,12 +10,17 @@ import authRoutes from "./routes/authRoutes.js";
 dotenv.config();
 
 const app = express();
+
+// ✅ Cho phép frontend từ cả localhost và Vercel
+const allowedOrigins = [
+    "http://localhost:3000",
+    "https://todolist-fe-wine.vercel.app",
+    "https://todolist-mauve-delta.vercel.app",
+];
+
 app.use(
     cors({
-        origin: [
-            "http://localhost:3000",
-            "https://todolist-mauve-delta.vercel.app/", // ✅ cho phép FE từ Vercel
-        ],
+        origin: allowedOrigins,
         methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"],
         credentials: true,
@@ -32,15 +37,13 @@ const server = http.createServer(app);
 // ✅ Cấu hình socket.io
 const io = new Server(server, {
     cors: {
-        origin: [
-            "http://localhost:3000",
-            "https://todolist-mauve-delta.vercel.app/"
-        ],
-        methods: ["GET", "POST", "PATCH", "DELETE"],
+        origin: allowedOrigins,
+        methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+        credentials: true,
     },
 });
 
-// ✅ Lắng nghe kết nối từ client
+// ✅ Lắng nghe kết nối socket
 io.on("connection", (socket) => {
     console.log("⚡ Client connected:", socket.id);
 
@@ -62,6 +65,9 @@ mongoose
     .connect(MONGO_URI)
     .then(() => {
         console.log("✅ MongoDB connected");
-        server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+        server.listen(PORT, () => {
+            console.log(`🚀 Server running on port ${PORT}`);
+            console.log("🌐 Allowed origins:", allowedOrigins.join(", "));
+        });
     })
     .catch((err) => console.error("❌ DB connection error:", err));
