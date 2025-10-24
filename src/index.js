@@ -14,7 +14,7 @@ app.use(
     cors({
         origin: [
             "http://localhost:3000",
-            "https://todolist-fe-wine.vercel.app", // ✅ cho phép FE từ Vercel
+            "https://todolist-mauve-delta.vercel.app/", // ✅ cho phép FE từ Vercel
         ],
         methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"],
@@ -34,7 +34,7 @@ const io = new Server(server, {
     cors: {
         origin: [
             "http://localhost:3000",
-            "https://todolist-fe-wine.vercel.app"
+            "https://todolist-mauve-delta.vercel.app/"
         ],
         methods: ["GET", "POST", "PATCH", "DELETE"],
     },
