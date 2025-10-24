@@ -30,7 +30,7 @@ const io = new Server(server, {
     cors: {
         origin: [
             "http://localhost:3000",
-            "https://todolist-server-xtx5.onrender.com/"
+            "https://todolist-fe-wine.vercel.app"
         ],
         methods: ["GET", "POST", "PATCH", "DELETE"],
     },
